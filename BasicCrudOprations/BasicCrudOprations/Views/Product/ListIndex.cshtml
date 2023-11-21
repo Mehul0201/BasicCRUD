@@ -1,0 +1,51 @@
+﻿@model IPagedList<BasicCrudOprations.Models.ProductModel>
+
+@{
+    ViewBag.Title = "ListIndex";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>Product View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "InsertProduct", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CategoryID)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProduct", new { id = item.ProductID }, new { @class = "btn btn-primary" }) &nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Details", "Details", new { id = item.ProductID }, new { @class = "btn btn-success" }) &nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Delete", "DeleteProduct", new { id = item.ProductID }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model,i=>Url.Action("ListIndex", "Product", new { i, search = Request.QueryString["search"] }))

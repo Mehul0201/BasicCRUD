@@ -1,0 +1,46 @@
+﻿@model IPagedList<BasicCrudOprations.Models.CategoryModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>Category View</h2>
+
+
+
+<p>
+    @Html.ActionLink("Create New", "InsertCategory", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover table-responsive ">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CategoryID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CategoryName)
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCategories", new { id = item.CategoryID }, new { @class = "btn btn-primary" }) &nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Details", "Details", new { id = item.CategoryID }, new { @class = "btn btn-success" })&nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Delete", "DeleteCategory", new { id = item.CategoryID }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(Model, i => Url.Action("Index", "Category", new { i, search = Request.QueryString["search"] }))
